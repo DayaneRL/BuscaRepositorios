@@ -1,6 +1,6 @@
 import React, {useState, useCallback, useEffect} from 'react';
-import { FaGithub, FaPlus, FaSpinner, FaBars, FaTrash } from 'react-icons/fa';
-import {Container, Form, SubmitButton, List, DeleteButton} from './styles';
+import { FaGithub, FaPlus, FaSpinner, FaSearch, FaTrash, FaUser, FaBuilding } from 'react-icons/fa';
+import {Div, Container, Form, SubmitButton, List, DeleteButton, Container1} from './styles';
 import {Link} from 'react-router-dom';
 
 import api from '../../services/api';
@@ -74,8 +74,22 @@ export default function Main(){
   }, [repositorios]);
 
   return(
-    <Container>
-      
+    <Div>
+      <Container1>
+        <Link to ="/user">
+          <FaUser size={20}/>
+          Busca por usuários
+        </Link>
+      </Container1>
+      <Container1>
+        <Link to ="/organizacao">
+          <FaBuilding size={20}/>
+          Busca por organizações
+        </Link>
+      </Container1>
+
+    <Container>  
+
       <h1>
         <FaGithub size={25}/>
         Busca de Repositorios no Github
@@ -109,12 +123,13 @@ export default function Main(){
               {repo.name}
             </span>
             <Link to={`/repositorio/${encodeURIComponent(repo.name)}`} title="Visualizar Mais">
-              <FaBars size={20}/>
+              <FaSearch size={20}/>
             </Link>
           </li>
         ))}
       </List>
 
     </Container>
+    </Div>
   )
 }

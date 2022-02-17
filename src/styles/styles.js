@@ -1,8 +1,5 @@
 import styled, {keyframes, css} from 'styled-components';
-
-export const Div = styled.div`
-  margin-top:80px;
-`;
+import { Link } from 'react-router-dom';
 
 export const Container = styled.div`
   max-width: 700px;
@@ -23,47 +20,12 @@ export const Container = styled.div`
     }
   }
 
-`;
-
-export const Container1 = styled.div`
-  max-width: 700px;
-  background: #FFF;
-  border-radius: 4px;
-  box-shadow: 0 0 20px rgba(0,0,0, 0.2);
-  margin: 10px auto;
-
   a{
-    font-size: 18px;
-    display:flex;
-    flex-direction:row;
-    align-items: flex-start;
-    color: #000000f2;
-    text-decoration: none;
-    border-radius: 3px;
-    max-width: 100%;
-    margin:0 0 10px 0;
-    padding: 10px 10px;
-    font-weight: bold;
-    
-    &:hover{
-      background:#0d2636fa;
-      color: #fff;
-    }
-    
-    svg{
-      margin-right: 10px;
-    }
-  }
-
-  @media (max-width: 680px)
-  {
-    a{
-      max-width: 700px;
-      margin:0 0 10px 0;
-    }
+    margin: 10px 0;
   }
 
 `;
+
 
 export const Form = styled.form`
   margin-top: 30px;
@@ -108,6 +70,8 @@ export const SubmitButton = styled.button.attrs(props => ({
     background:#0d2636fa;
     color: #fff;
   }
+  cursor: not-allowed;
+  opacity: 0.5;
 
   &[disabled]{
     cursor: not-allowed;
@@ -140,7 +104,7 @@ export const List = styled.ul`
     }
 
     a{
-      color: #222;
+      color: #0D2636;
       text-decoration: none;
     }
   }
@@ -151,9 +115,8 @@ export const DeleteButton = styled.button.attrs({
 })`
   padding: 8px 7px;
   background: transparent;
-  color: #222;
+  color: #3f4676;
   border: 0;
   outline:0;
   border-radius: 4px;
 `;
-
