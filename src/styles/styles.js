@@ -7,7 +7,7 @@ export const Container = styled.div`
   border-radius: 4px;
   box-shadow: 0 0 20px rgba(0,0,0, 0.2);
   padding: 30px;
-  margin: 10px auto 80px auto;
+  margin: 60px auto;
 
   h1{
     font-size: 20px;
@@ -70,8 +70,6 @@ export const SubmitButton = styled.button.attrs(props => ({
     background:#0d2636fa;
     color: #fff;
   }
-  cursor: not-allowed;
-  opacity: 0.5;
 
   &[disabled]{
     cursor: not-allowed;
@@ -106,6 +104,23 @@ export const List = styled.ul`
     a{
       color: #0D2636;
       text-decoration: none;
+      float: right;
+    }
+
+    img{
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+    }
+
+    div{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      h3{
+        margin: 0 5px 0 10px;
+      }
     }
   }
 `;
@@ -115,8 +130,132 @@ export const DeleteButton = styled.button.attrs({
 })`
   padding: 8px 7px;
   background: transparent;
-  color: #3f4676;
+  color: #0D2636;
   border: 0;
   outline:0;
   border-radius: 4px;
+  margin-left: 7px;
+`;
+
+export const Loading = styled.div`
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items:center;
+    height: 100vh;
+`;
+
+
+export const Owner = styled.header`
+    display: flex;
+    flex-direction: column;
+    align-items:center;
+
+    img{
+        width: 120px;
+        border-radius: 50%;
+        margin: 20px 0;
+    }
+
+    h1{
+        font-size: 26px;
+        color: #0D2636;
+    }
+
+    p{
+        margin-top: 5px;
+        font-size: 15px;
+        color:#000;
+        text-align: center;
+        line-height: 1.4;
+        max-width: 400px;
+    }
+`;
+
+export const BackButton = styled(Link)`
+    border:0;
+    outline:0;
+    background:transparent;
+
+`;
+
+
+export const ReposList = styled.ul`
+    margin-top: 20px;
+    paddint-top: 30px;
+    border-top: 1px solid #eee;
+    list-style: none;
+
+    h2{
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        margin: 12px 0 10px 0;
+        color: #fff;
+        background: #3f4676;
+        border-radius: 5px;
+        font-size: 19px;
+        padding: 3px 7px;
+    }
+
+    li{
+        display: flex;
+        padding: 15px 10px;
+
+        & + li{
+            margin-top: 12px;
+        }
+
+        div{
+            flex: 1;
+            margin-left: 12px;
+
+            p{
+                margin-top: 8px;
+                font-size: 12px;
+                color #000;
+            }
+        }
+
+        strong{
+            font-size: 15px;
+
+            a{
+                text-decoration: none;
+                color: #222;
+                transform: 0.3s;
+
+                &:hover{
+                    color: #0071db;
+                }
+            }
+        }
+        
+    }
+`;
+
+
+export const PageAction = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content:space-between;
+    margin-top: 8px;
+
+    button{
+        outline:0;
+        border:0;
+        background: #222;
+        color:#fff;
+        padding: 5px 10px;
+        border-radius: 4px;
+
+        &:hover{
+            background: #222222d1;
+        }
+
+        &:disabled{
+            cursor: not-allowed;
+            opacity:0.5;
+        }
+    }
 `;

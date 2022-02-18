@@ -1,17 +1,30 @@
+import {Link} from 'react-router-dom';
 import React, {useState, useCallback, useEffect} from 'react';
+
 import { FaUser, FaPlus, FaSpinner, FaSearch, FaTrash, FaArrowLeft } from 'react-icons/fa';
 import { Container, Form, SubmitButton, List, DeleteButton} from '../../styles/styles';
-import {Link} from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 import api from '../../services/api';
 
 
 export default function User(){
 
-    const [newRepo, setNewRepo] = useState('');
-    const [repositorios, setRepositorios] = useState([]);
+    const [newUser, setNewUser] = useState('');
+    const [usuarios, setUsuarios] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [alert, setAlert] = useState('');
+    const [alert, setAlert] = useState(null);
+
+    useEffect(()=>{
+        const userStorage = localStorage.getItem('users');
+        if(userStorage){
+            setUsuarios(JSON.parse(userStorage));
+        }
+    }, []);
+
+    useEffect(()=>{
+        localStorage.setItem('users', JSON.stringify(usuarios));
+    }, [usuarios]);
 
     const submit = useCallback((e)=>{
         e.preventDefault();
@@ -19,25 +32,50 @@ export default function User(){
         async function submit(){
           setLoading(true);
             try{
+                if(newUser === ''){
+                    toast.error('Você precisa indicar um usuário!');
+                    return;
+                }
+          
+                const response = await (await api.get(`users/${newUser}`) ).data;
+
+                const hasUser = usuarios.find(user => user.login === response.login);
+                if(hasUser){
+                    toast.error('Usuario duplicado');
+                    return;
+                }
+                
+                const data = {
+                    id: response.id,
+                    name: response.name,
+                    login: response.login,
+                    avatar: response.avatar_url
+                }
+                setUsuarios([...usuarios, data]);
+                toast.success(response.login + ' adicionado com sucesso.');
+                setNewUser('');
             }catch(error){
-                console.log(error);
+                setAlert(true);
+                if(error){
+                    toast.error('Algo deu errado!');
+                }
             }finally{
                 setLoading(false);
             }
         }
         submit();
     
-    }, [newRepo, repositorios]);
+    }, [newUser, usuarios]);
 
     function inputChange(e){
-        setNewRepo(e.target.value);
+        setNewUser(e.target.value);
         setAlert(null);
     }
 
-    const Delete = useCallback((repo)=>{
-    const find = repositorios.filter(res => res.name !== repo);
-    setRepositorios(find);
-    }, [repositorios]);    
+    const Delete = useCallback((id_user)=>{
+        const find = usuarios.filter(u => u.id !== id_user);
+        setUsuarios(find);
+    }, [usuarios]);    
 
     return(
         <Container>  
@@ -54,9 +92,8 @@ export default function User(){
             <input 
             type="text" 
             placeholder="Adicionar Usuarios"
-            value={newRepo}
+            value={newUser}
             onChange={inputChange}
-            disabled
             />
 
             <SubmitButton loading={loading ? 1 : 0}>
@@ -70,17 +107,22 @@ export default function User(){
         </Form>
 
         <List>
-            {repositorios.map(repo =>(
-            <li key={repo.name}>
-                <span>
-                <DeleteButton onClick={()=> Delete(repo.name)}>
+            {usuarios.map(user =>(
+            <li key={user.id}>
+                {/* <span>
+                    {user.login}
+                </span> */}
+                <Link to={`/user/${user.login}`} title="Visualizar Mais">
+                    {/* <FaSearch size={20}/> */}
+                    <div>
+                        <img src={user.avatar} alt={user.login}/>
+                        <h3>{user.name}</h3>
+                        @<p>{user.login}</p>
+                    </div>
+                </Link>
+                <DeleteButton onClick={()=> Delete(user.id)}>
                     <FaTrash size={14}/>
                 </DeleteButton>
-                {repo.name}
-                </span>
-                <Link to={`/repositorio/${encodeURIComponent(repo.name)}`} title="Visualizar Mais">
-                <FaSearch size={20}/>
-                </Link>
             </li>
             ))}
         </List>
