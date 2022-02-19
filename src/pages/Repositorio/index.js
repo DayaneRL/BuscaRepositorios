@@ -10,7 +10,7 @@ export default function Repositorio({match}){
     const [issues, setIssues] = useState([]);
     const [loading, setLoading] = useState(true);
     const [page, setPage] = useState(1);
-    const [filters, setFilters] = useState([
+    const [filters] = useState([
         {state: 'all', label: 'Todas', active: true},
         {state: 'open', label: 'Abertas', active: false},
         {state: 'closed', label: 'Fechadas', active: false},
@@ -39,7 +39,7 @@ export default function Repositorio({match}){
             setLoading(false);
         }
         load();
-    }, []);
+    }, [filters, match.params.repositorio]);
 
     useEffect(()=> {
 

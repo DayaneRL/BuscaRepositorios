@@ -36,7 +36,7 @@ export default function Repositorio({match}){
             setLoading(false);
         }
         load();
-    }, []);
+    }, [match.params.user]);
 
     useEffect(()=> {
         async function loadRepos(){
@@ -47,7 +47,7 @@ export default function Repositorio({match}){
                     per_page: 4,
                 }
             })
-            if(response.data.length ==0){
+            if(response.data.length===0){
                 console.log('vazio');
                 setLastPage(true);
             }
@@ -92,7 +92,7 @@ export default function Repositorio({match}){
                         </div>
                     </li>
                 ))}
-                {repositorios.length==0 && (
+                {repositorios.length===0 && (
                     <p>Nenhum item encontrado.</p>
                 )}
                 <PageAction>

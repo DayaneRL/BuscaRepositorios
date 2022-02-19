@@ -1,7 +1,7 @@
 import {Link} from 'react-router-dom';
 import React, {useState, useCallback, useEffect} from 'react';
 
-import { FaUser, FaPlus, FaSpinner, FaSearch, FaTrash, FaArrowLeft } from 'react-icons/fa';
+import { FaUser, FaPlus, FaSpinner, FaTrash, FaArrowLeft } from 'react-icons/fa';
 import { Container, Form, SubmitButton, List, DeleteButton} from '../../styles/styles';
 import { toast } from 'react-toastify';
 
@@ -57,7 +57,7 @@ export default function User(){
                 setNewUser('');
             }catch(error){
                 setAlert(true);
-                if(error.response.data.message=="Not Found"){
+                if(error.response.data.message==="Not Found"){
                     toast.error('Não encontrado.');
                 } else if(error){
                     toast.error('Algo deu errado!');

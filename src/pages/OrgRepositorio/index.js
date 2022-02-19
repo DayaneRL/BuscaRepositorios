@@ -12,7 +12,7 @@ export default function Repositorio({match}){
     const [loading, setLoading] = useState(true);
     const [page, setPage] = useState(1);
     const [lastPage,setLastPage] =useState(false);
-    const [filters, setFilters] = useState([
+    const [filters] = useState([
         {name: 'repos', label: 'repositorios', active: true},
         {name: 'members', label: 'membros', active: false},
         {name: 'public_members', label: 'mebros publicos', active: false},
@@ -36,13 +36,13 @@ export default function Repositorio({match}){
             setLoading(false);
         }
         load();
-    }, []);
+    }, [match.params.organizacao]);
 
     useEffect(()=> {
         async function loadMore(){
             const nomeOrg = match.params.organizacao;
 
-            if(filters[filterIndex].name=="repos"){
+            if(filters[filterIndex].name==="repos"){
                 const response = await api.get(`/orgs/${nomeOrg}/repos`,{
                     params:{
                         page,
@@ -51,14 +51,14 @@ export default function Repositorio({match}){
                 })
                 setRepositorios(response.data);
                 setMembers([]);
-                if(response.data.length ==0){  setLastPage(true);   }
-            }else if(filters[filterIndex].name=="members"){
+                if(response.data.length===0){  setLastPage(true);   }
+            }else if(filters[filterIndex].name==="members"){
                 const response = await api.get(`/orgs/${nomeOrg}/members`,{
                     params:{ page, per_page: 4, }
                 })
                 setMembers(response.data);
                 setRepositorios([]);
-            }else if(filters[filterIndex].name=="public_members"){
+            }else if(filters[filterIndex].name==="public_members"){
                 const response = await api.get(`/orgs/${nomeOrg}/public_members`,{
                     params:{ page, per_page: 4, }
                 })
@@ -130,7 +130,7 @@ export default function Repositorio({match}){
                         </div>
                     </li>
                 ))}
-                {repositorios.length==0 && members.length==0 && (
+                {repositorios.length===0 && members.length===0 && (
                     <p>Nenhum item encontrado.</p>
                 )}
                 <PageAction>

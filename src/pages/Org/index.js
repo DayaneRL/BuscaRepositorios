@@ -55,7 +55,7 @@ export default function Org(){
                 setNewOrg('');
             }catch(error){
                 setAlert(true);
-                if(error.response.data.message=="Not Found"){
+                if(error.response.data.message==="Not Found"){
                     toast.error('Não encontrado.');
                 } else if(error){
                     toast.error('Algo deu errado!');
