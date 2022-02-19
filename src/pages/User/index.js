@@ -9,6 +9,7 @@ import api from '../../services/api';
 
 
 export default function User(){
+    document.title = 'Busca Usuários';
 
     const [newUser, setNewUser] = useState('');
     const [usuarios, setUsuarios] = useState([]);
@@ -56,7 +57,9 @@ export default function User(){
                 setNewUser('');
             }catch(error){
                 setAlert(true);
-                if(error){
+                if(error.response.data.message=="Not Found"){
+                    toast.error('Não encontrado.');
+                } else if(error){
                     toast.error('Algo deu errado!');
                 }
             }finally{
@@ -109,11 +112,7 @@ export default function User(){
         <List>
             {usuarios.map(user =>(
             <li key={user.id}>
-                {/* <span>
-                    {user.login}
-                </span> */}
                 <Link to={`/user/${user.login}`} title="Visualizar Mais">
-                    {/* <FaSearch size={20}/> */}
                     <div>
                         <img src={user.avatar} alt={user.login}/>
                         <h3>{user.name}</h3>

@@ -4,6 +4,7 @@ import { FaArrowLeft } from "react-icons/fa";
 import api from "../../services/api";
 
 export default function Repositorio({match}){
+    document.title = 'Usuário'
 
     const [usuario, setUsuario] = useState([]);
     const [repositorios, setRepositorios] = useState({});

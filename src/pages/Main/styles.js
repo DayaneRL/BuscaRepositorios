@@ -142,6 +142,14 @@ export const List = styled.ul`
     a{
       color: #222;
       text-decoration: none;
+
+      svg{
+        vertical-align: sub;
+      }
+      span{
+        margin-left: 10px;
+        font-size:15px;
+      }
     }
   }
 `;

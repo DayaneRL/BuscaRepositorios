@@ -1,40 +1,82 @@
 import React, {useState, useCallback, useEffect} from 'react';
-import { FaBuilding, FaPlus, FaSpinner, FaSearch, FaTrash, FaArrowLeft } from 'react-icons/fa';
-import { Container, Form, SubmitButton, List, DeleteButton} from '../../styles/styles';
 import {Link} from 'react-router-dom';
+import { FaBuilding, FaPlus, FaSpinner, FaTrash, FaArrowLeft } from 'react-icons/fa';
+import { Container, Form, SubmitButton, List, DeleteButton} from '../../styles/styles';
+import { toast } from 'react-toastify';
+
+import api from '../../services/api';
 
 export default function Org(){
+    document.title = 'Busca Organização'
     
-    const [newRepo, setNewRepo] = useState('');
-    const [repositorios, setRepositorios] = useState([]);
+    const [newOrg, setNewOrg] = useState('');
+    const [organizacoes, setOrganizacoes] = useState([]);
     const [loading, setLoading] = useState(false);
     const [alert, setAlert] = useState('');
+
+    useEffect(()=>{
+        const orgStorage = localStorage.getItem('orgs');
+        if(orgStorage){
+            setOrganizacoes(JSON.parse(orgStorage));
+        }
+    }, []);
+
+    useEffect(()=>{
+        localStorage.setItem('orgs', JSON.stringify(organizacoes));
+    }, [organizacoes]);
 
     const submit = useCallback((e)=>{
         e.preventDefault();
     
         async function submit(){
             setLoading(true);
-              try{
-              }catch(error){
-                  console.log(error);
-              }finally{
-                  setLoading(false);
-              }
+            try{
+                if(newOrg === ''){
+                    toast.error('Você precisa indicar uma organização!');
+                    return;
+                }
+          
+                const response = await (await api.get(`orgs/${newOrg}`) ).data;
+                
+                const hasOrg = organizacoes.find(org => org.login === response.login);
+                if(hasOrg){
+                    toast.error('Organização duplicada');
+                    return;
+                }
+                
+                const data = {
+                    id: response.id,
+                    name: response.name,
+                    login: response.login,
+                    avatar: response.avatar_url
+                }
+                setOrganizacoes([...organizacoes, data]);
+                toast.success(response.login + ' adicionado com sucesso.');
+                setNewOrg('');
+            }catch(error){
+                setAlert(true);
+                if(error.response.data.message=="Not Found"){
+                    toast.error('Não encontrado.');
+                } else if(error){
+                    toast.error('Algo deu errado!');
+                }
+            }finally{
+                setLoading(false);
+            }
           }
         submit();
     
-    }, [newRepo, repositorios]);
+    }, [newOrg, organizacoes]);
 
     function inputChange(e){
-        setNewRepo(e.target.value);
+        setNewOrg(e.target.value);
         setAlert(null);
     }
 
-    const Delete = useCallback((repo)=>{
-    const find = repositorios.filter(res => res.name !== repo);
-    setRepositorios(find);
-    }, [repositorios]);    
+    const Delete = useCallback((org)=>{
+    const find = organizacoes.filter(o => o.id !== org);
+    setOrganizacoes(find);
+    }, [organizacoes]);    
 
     return(
         <Container>  
@@ -52,9 +94,8 @@ export default function Org(){
                 <input 
                 type="text" 
                 placeholder="Adicionar Organizações"
-                value={newRepo}
+                value={newOrg}
                 onChange={inputChange}
-                disabled
                 />
 
                 <SubmitButton loading={loading ? 1 : 0}>
@@ -68,17 +109,19 @@ export default function Org(){
             </Form>
 
             <List>
-                {repositorios.map(repo =>(
-                <li key={repo.name}>
-                    <span>
-                    <DeleteButton onClick={()=> Delete(repo.name)}>
+                {organizacoes.map(org =>(
+                <li key={org.id}>
+                    <Link to={`/organizacao/${org.login}`} title="Visualizar Mais">
+                    <div>
+                        <img src={org.avatar} alt={org.login}/>
+                        <h3>{org.name}</h3>
+                        @<p>{org.login}</p>
+                    </div>
+                    
+                    </Link>
+                    <DeleteButton onClick={()=> Delete(org.id)}>
                         <FaTrash size={14}/>
                     </DeleteButton>
-                    {repo.name}
-                    </span>
-                    <Link to={`/repositorio/${encodeURIComponent(repo.name)}`} title="Visualizar Mais">
-                    <FaSearch size={20}/>
-                    </Link>
                 </li>
                 ))}
             </List>

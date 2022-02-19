@@ -6,6 +6,7 @@ import {Link} from 'react-router-dom';
 import api from '../../services/api';
 
 export default function Main(){
+  document.title = 'Busca Repositorios';
 
   const [newRepo, setNewRepo] = useState('');
   const [repositorios, setRepositorios] = useState([]);
@@ -116,15 +117,15 @@ export default function Main(){
       <List>
         {repositorios.map(repo =>(
           <li key={repo.name}>
-            <span>
-              <DeleteButton onClick={()=> Delete(repo.name)}>
-                <FaTrash size={14}/>
-              </DeleteButton>
-              {repo.name}
-            </span>
             <Link to={`/repositorio/${encodeURIComponent(repo.name)}`} title="Visualizar Mais">
               <FaSearch size={20}/>
+              <span>
+                {repo.name}
+              </span>
             </Link>
+            <DeleteButton onClick={()=> Delete(repo.name)}>
+              <FaTrash size={14}/>
+            </DeleteButton>
           </li>
         ))}
       </List>

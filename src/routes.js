@@ -6,6 +6,7 @@ import Repositorio from './pages/Repositorio';
 import User from './pages/User';
 import UserRepositorio from './pages/UserRepositorio';
 import Org from './pages/Org';
+import OrgRepositorio from './pages/OrgRepositorio';
 
 export default function Routes(){
     return(
@@ -16,6 +17,7 @@ export default function Routes(){
                 <Route exact path='/user' component={User}/>
                 <Route exact path='/user/:user' component={UserRepositorio}/>
                 <Route exact path='/organizacao' component={Org}/>
+                <Route exact path='/organizacao/:organizacao' component={OrgRepositorio}/>
             </Switch>
         </BrowserRouter>
     )

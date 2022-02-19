@@ -203,7 +203,8 @@ export const ReposList = styled.ul`
         padding: 15px 10px;
 
         & + li{
-            margin-top: 12px;
+            margin-top: 12px;  
+            border-top: 1px solid #ddd;
         }
 
         div{
@@ -230,7 +231,17 @@ export const ReposList = styled.ul`
                 }
             }
         }
-        
+    }
+    img{
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+    }
+
+    div.member{
+      display: block;
+      align-items: self-start;
+      margin: 0 0 0 12px;
     }
 `;
 
@@ -256,6 +267,28 @@ export const PageAction = styled.div`
         &:disabled{
             cursor: not-allowed;
             opacity:0.5;
+        }
+    }
+`;
+
+export const FilterList = styled.div`
+    margin: 15px 0;
+
+    button{
+        outline:0;
+        border:0;
+        padding:8px;
+        border-radius:4px;
+        margin: 0 3px;
+
+        &:hover{
+            background:#0d26368c;
+            color: #fff;
+        }
+
+        &:nth-child(${props => props.active + 1}){
+            background: #0d2636;
+            color: #fff;
         }
     }
 `;
