@@ -37,4 +37,5 @@ Possui um filtro de repositórios públicos (pré selecionado), membros e membro
 
 ## Testar
 
-<p align="center"> Link heroku para visualização <a href="https://busca-repositorios-github.herokuapp.com/">Heroku Busca de Repositorios</a> </p>
+<!--<p align="center"> Link heroku para visualização <a href="https://busca-repositorios-github.herokuapp.com/">Heroku Busca de Repositorios</a> </p>-->
+Link para visualização <a href="https://dayanerl-busca-repositorios.netlify.app/">Busca Repositorios (netlify)</a>
